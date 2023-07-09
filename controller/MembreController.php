@@ -15,7 +15,7 @@ class MembreController
                 if(isset($_POST['pseudo']))
                 {
                     extract($_POST);
-                    var_dump($_POST);
+                    // var_dump($_POST);
 
                     $membre = new Membre(0, $pseudo, $mdp, $nom, $prenom, $email, $civilte, null, null);
 
@@ -31,17 +31,27 @@ class MembreController
                 if ( isset($_POST['pseudo']) )
                 {
                     $membre = $membreMdl->connexion($_POST['pseudo'],$_POST['mdp']);
-                    if ( $membre->getStatut() == 1 )
+                    
+
+                    if ($membre) {
+
+                        $_SESSION['user'] = serialize($membre);
                     {
-                        header("location: views/admin/admin.phtml");
-                    }else{
-                        header("location: views/membre/membre.phtml");
+                        header("location: .");
+                        exit;
                     }
+                    }
+                    
+                    
                 }
+            }else if($action == "deconnexion")
+            {
+                session_destroy();
+                header("location: .");
+                exit;
+            }
         
             }
             
         }
- 
     }
-}

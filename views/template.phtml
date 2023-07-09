@@ -15,9 +15,25 @@
     <header class="bg-primary text-center p-3">
         <h1 class="text-center"><a href="." class="text-white">Location de véhicule</a></h1>
         <nav>
+
+        <?php if(isset($_SESSION['user'])): ?>
+
+            <?php if(unserialize($_SESSION['user'])->getStatut()): ?>
+            
+                <a href="?action=" class="btn btn-success" >Mon Compte</a>
+            <a href="?action=agence" class="btn btn-success">Gestion Agences</a>
+            <a href="?action=" class="btn btn-success">Gestion Vehicules</a>
+            <a href="?action=" class="btn btn-success">Gestion Membres</a>
+            <a href="?action=" class="btn btn-success">Gestion Commandes</a>
+            
+                <?php endif; ?>
+                <a href="?action=" class="btn btn-success">Commandes</a>
+                <a href="?action=deconnexion" class="btn btn-danger">Deconnexion</a>
+            <?php else: ?>
             <a href="?action=inscription" class="btn btn-success" >Inscription</a>
             <a href="?action=connexion" class="btn btn-success">Connexion</a>
             <a href="?action=" class="btn btn-success">Contactez-nous</a>
+            <?php endif; ?>
         </nav>
     </header>
 

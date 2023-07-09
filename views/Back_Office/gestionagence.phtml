@@ -1,5 +1,35 @@
 <?php ob_start(); ?>
 
+<table class="table table-strepid">
+    <tr class="table-dark">
+        <td>Agence</td>
+        <td>Titre</td>
+        <td>Adresse</td>
+        <td>Ville</td>
+        <td>CP</td>
+        <td>Description</td>
+        <td>Image</td>
+        <td>Action</td>
+    </tr>
+
+    <?php foreach ($agences as $agence): ?>
+        <tr>
+            <td> <?= $agence->getId_agence(); ?></td>
+            <td> <?= $agence->getTitre(); ?></td>
+            <td> <?= $agence->getAdresse(); ?></td>
+            <td> <?= $agence->getVille(); ?></td>
+            <td> <?= $agence->getCp(); ?></td>
+            <td> <?= $agence->getDescription(); ?></td>
+            <td> <?= $agence->getPhoto(); ?></td>
+            <td>
+                <a href="#">voir</a>
+                <a href="#">Modifier</a>
+                <a href="#">Supprimer</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
     <form action="" method="post" class="form-group">
         <div class="row">
             <div class="col-6 mt-4">
@@ -30,6 +60,10 @@
         </div>
         <input type="submit" class="btn btn-success mt-3" value="Enregistrer">
     </form>
+
+    <main class="container">
+        
+    </main>
 
 <?php 
 $content = ob_get_clean();

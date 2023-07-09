@@ -19,9 +19,9 @@ include "controller/AgenceController.php";
 
 
 $membre = new MembreController();
-$membre->membreAction();
-
 $agence = new AgenceController();
+
+$membre->membreAction();
 $agence->agenceAction();
 
 

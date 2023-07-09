@@ -4,36 +4,39 @@ class AgenceController
 {
     public function agenceAction()
     {
-        
+        $agenceMdl = new AgenceModel();
 
         if(isset($_GET['action']))
         
         {
-            include "views/gestionagence.phtml";
-            $agenceMdl = new AgenceModel();
             $action = $_GET['action'];
             if($action == "agence")
             
-
-            var_dump("agence");
+            // var_dump("agence");
             {
+                $agences =$agenceMdl->getAgence();
                 
+                include "views//Back_Office/gestionagence.phtml";
                 
                 if(isset($_POST['titre']))
                 {
                     extract($_POST);
-                    var_dump($_POST);
-
+                    
                     $agence = new Agence(0, $titre, $adresse, $ville, $cp, $description, $photo);
-                    var_dump($agence);
-
-                    $agenceMdl->inserer($agence);
+                    
+                    
+                    $agenceMdl->insererAgence($agence);
 
                     header("location: ?action=agence");
+                    exit;
                 }
-
             }
         }
- 
+    }
+
+    public function getAgence()
+    {
+        $agenceMdl = new AgenceModel();
+        return $agenceMdl->getAgence();
     }
 }

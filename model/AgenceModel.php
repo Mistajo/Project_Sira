@@ -2,9 +2,9 @@
 
 class AgenceModel extends ModelGenerique
 {
-    public function inserer($agence)
+    public function insererAgence($agence)
     {
-        $query = "INSERT INTO agence (titre, adresse, ville, cp, description, photo,) VALUES(:titre, :adresse, :ville, :cp, :description, :photo, now())";
+        $query = "INSERT INTO agence (titre, adresse, ville, cp, description, photo,) VALUES(:titre, :adresse, :ville, :cp, :description, :photo,)";
 
         $this->executeRequete($query,[
             "titre"    => $agence->getTitre(),
@@ -14,5 +14,25 @@ class AgenceModel extends ModelGenerique
             "description"     => $agence->getDescription(),
             "photo"   => $agence->getPhoto(),
         ]);
+    }
+
+    public function getAgence() 
+    {
+        $stmt =$this->executeRequete("SELECT * FROM agence");
+
+        $tAgence = [];
+
+        
+
+        while ($res = $stmt->fetch())
+        
+        {
+            extract($res);
+            $tAgence[] = new Agence($id_agence,$titre,$adresse,$ville,$cp,$description,$photo);
+        }
+
+        var_dump($tAgence);
+
+        return $tAgence;
     }
 }
