@@ -1,0 +1,20 @@
+<?php ob_start(); ?>
+
+<form action="" method="post">
+    <div class="row">
+        <div class="col-6 mt-3">
+            <label for="pseudo">Pseudo</label>
+            <input type="text" name="pseudo"  class="form-control" placeholder="Pseudo">
+        </div>
+        <div class="col-6 mt-3">
+            <label for="mdp">Mot de passe</label>
+            <input type="password" name="mdp" class="form-control">
+        </div>
+    </div>
+    <input type="submit" class="btn btn-success mt-3">
+</form>
+
+<?php 
+$content = ob_get_clean();
+
+include "views/template.phtml";
