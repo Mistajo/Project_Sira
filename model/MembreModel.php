@@ -33,6 +33,21 @@ class MembreModel extends ModelGenerique
         }
         return null;
     }
+    public function listeMembre()
+    {
+        $stmt = $this->executeRequete("SELECT * FROM membre");
 
+        $tmembre = [];
 
-}
+        while ($res = $stmt->fetch())
+        
+        {
+            extract($res);
+            $tmembre[] = new Membre($id_membre,$pseudo,$mdp,$nom,$prenom,$email,$civilte,$statut,$date_enregistrement);
+        }
+
+        // var_dump($tAgence);
+
+        return $tmembre;
+    }
+    }

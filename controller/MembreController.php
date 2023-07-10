@@ -9,7 +9,24 @@ class MembreController
         if(isset($_GET['action']))
         {
             $action = $_GET['action'];
-            if($action == "inscription")
+
+            
+            if ($action == "gestionmembres") {
+
+                $membres = $membreMdl->listeMembre();
+                
+                if (isset($_POST['pseudo']))
+                {
+                    extract($_POST);
+                    $membre = new Membre(0,$pseudo, $mdp, $nom, $prenom, $email, $civilte, $statut, $date_enregistrement);
+                $membreMdl->inserer($membre);
+                header("location : ?action=gestionmembres");
+                }
+                
+                include "views/Back_Office/gestionmembres.phtml";
+            }
+
+            else if($action == "inscription")
             {
                 include "views/user/inscription.phtml";
                 if(isset($_POST['pseudo']))
@@ -22,6 +39,7 @@ class MembreController
                     $membreMdl->inserer($membre);
 
                     header("location: ?action=connexion");
+                    exit;
                 }
 
             }else if($action == "connexion")
