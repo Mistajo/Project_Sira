@@ -4,7 +4,8 @@ class AgenceModel extends ModelGenerique
 {
     public function insererAgence($agence)
     {
-        $query = "INSERT INTO agence (titre, adresse, ville, cp, description, photo,) VALUES(:titre, :adresse, :ville, :cp, :description, :photo,)";
+        var_dump($agence);
+        $query = "INSERT INTO agence (titre, adresse, ville, cp, description, photo) VALUES(:titre, :adresse, :ville, :cp, :description, :photo)";
 
         $this->executeRequete($query,[
             "titre"    => $agence->getTitre(),
@@ -12,7 +13,7 @@ class AgenceModel extends ModelGenerique
             "ville"       => $agence->getVille(),
             "cp"    => $agence->getCp(),
             "description"     => $agence->getDescription(),
-            "photo"   => $agence->getPhoto(),
+            "photo"   => $agence->getPhoto()
         ]);
     }
 
@@ -31,7 +32,7 @@ class AgenceModel extends ModelGenerique
             $tAgence[] = new Agence($id_agence,$titre,$adresse,$ville,$cp,$description,$photo);
         }
 
-        var_dump($tAgence);
+        // var_dump($tAgence);
 
         return $tAgence;
     }

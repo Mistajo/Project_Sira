@@ -16,10 +16,12 @@ class AgenceController
             {
                 $agences =$agenceMdl->getAgence();
                 
-                include "views//Back_Office/gestionagence.phtml";
+                
                 
                 if(isset($_POST['titre']))
+                
                 {
+
                     extract($_POST);
                     
                     $agence = new Agence(0, $titre, $adresse, $ville, $cp, $description, $photo);
@@ -30,6 +32,7 @@ class AgenceController
                     header("location: ?action=agence");
                     exit;
                 }
+                include "views//Back_Office/gestionagence.phtml";
             }
         }
     }
