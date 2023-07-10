@@ -11,18 +11,18 @@ class MembreController
             $action = $_GET['action'];
 
             
-            if ($action == "gestionmembres") {
+            if ($action == "gestionmembre") {
 
                 $membres = $membreMdl->listeMembre();
-                
+
                 if (isset($_POST['pseudo']))
                 {
                     extract($_POST);
                     $membre = new Membre(0,$pseudo, $mdp, $nom, $prenom, $email, $civilte, $statut, $date_enregistrement);
                 $membreMdl->inserer($membre);
                 header("location : ?action=gestionmembres");
+                exit;
                 }
-                
                 include "views/Back_Office/gestionmembres.phtml";
             }
 
@@ -67,9 +67,37 @@ class MembreController
                 session_destroy();
                 header("location: .");
                 exit;
+                 //CAS MODIF
+            }else if($action == "modifier"){
+
+                if( isset($_POST['pseudo']) ){
+                    $membre = new Membre($_POST);
+                    $membreMdl->update($membre);
+
+                    header("location: ?action=gestionMembre");
+                    exit;
+                }
+
+                $membreActuel = $membreMdl->getMembre($_GET['id']);
+                $membres = $membreMdl->listeMembre();
+                include "views/backOffice/membre.phtml";
+             
+            }//CAS SUPPRESSION
+            else if($action == "supprimer"){
+
+                if( isset($_GET['id']) ){
+                    $membre = $membreMdl->getMembre($_GET['id']);
+                    $membreMdl->delete($membre);
+
+                    header("location: ?action=gestionMembre");
+                    exit;
+                }
+             
             }
+            
+        }
         
             }
             
         }
-    }
+    
