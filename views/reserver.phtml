@@ -1,0 +1,52 @@
+<?php ob_start(); ?>
+
+    <div class="mt-3">
+        <img class="img-fluid" src="public/img/vehicule/<?= $vehiculeCmd->getPhoto() ?>"alt="Card image cap"> 
+        <div> <span id="prix"><?= $vehiculeCmd->getPrix_journalier() ?></span>€ par jour </div>
+    </div>
+
+    <form action="" method="post">
+        <input type="hidden" name="id_membre" value="<?= unserialize($_SESSION['user'])->getId_membre() ?>">
+        <input type="hidden" name="id_vehicule" value="<?= $vehiculeCmd->getId_vehicule() ?>">
+        <input type="hidden" name="id_agence" value="<?= $vehiculeCmd->getId_agence() ?>">
+
+
+        <div class="row">
+        
+            <div class="col-6 mt-4">
+                <label for="pseudo">Date début</label>
+                <input type="datetime-local" name="date_heure_depart" class="form-control" value="<?= isset($membreActuel) ? $membreActuel->getPseudo() : '' ?>" id="begin">
+            </div>
+            <div class="col-6 mt-4">
+                <label for="email">Date fin</label>
+                <input type="datetime-local" name="date_heure_fin" class="form-control" value="<?= isset($membreActuel) ? $membreActuel->getEmail() : '' ?>" id="end" disabled>
+            </div>
+            
+        </div>
+        <input type="submit" class="btn btn-success mt-3">
+    </form>
+
+
+    <script>
+        let dateDebut = document.getElementById('begin');
+        let dateFin = document.getElementById('end');
+
+        dateDebut.addEventListener('blur', function(){
+            console.log(dateDebut.value);
+            dateFin.disabled = false;
+
+            dateFin.addEventListener('blur', function(){
+                console.log(dateFin.value);
+
+            });
+
+        });
+
+
+        
+    </script>
+
+<?php
+$content = ob_get_clean();
+
+include "views/template.phtml";
