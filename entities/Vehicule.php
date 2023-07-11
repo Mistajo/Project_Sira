@@ -11,6 +11,23 @@ class Vehicule
     private $photo;
     private $prix_journalier;
 
+
+
+    public function __construct($data = []){
+
+        foreach($data as $key => $value){
+             //création de la methode set...
+             $methode  = "set" . ucfirst(  $key ) ;
+
+             //teste si le setter existe
+             if( method_exists($this, $methode) ){
+                  //appel du setter et en paramètre la valeur ($value)
+                  $this->$methode($value);
+             }
+        }
+
+   }
+   
     /**
      * Get the value of id_vehicule
      */ 
@@ -59,20 +76,7 @@ class Vehicule
         return $this->titre;
     }
 
-    public function __construct($data = []){
-
-        foreach($data as $key => $value){
-             //création de la methode set...
-             $methode  = "set" . ucfirst(  $key ) ;
-
-             //teste si le setter existe
-             if( method_exists($this, $methode) ){
-                  //appel du setter et en paramètre la valeur ($value)
-                  $this->$methode($value);
-             }
-        }
-
-   }
+    
 
     /**
      * Set the value of titre

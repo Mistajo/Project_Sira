@@ -1,45 +1,68 @@
 <?php
 
-class AgenceController
-{
-    public function agenceAction()
-    {
-        $agenceMdl = new AgenceModel();
+class AgenceController extends ControllerAbstract{
 
-        if(isset($_GET['action']))
-        
-        {
-            $action = $_GET['action'];
-            if($action == "agence")
-            
-            // var_dump("agence");
-            {
-                $agences =$agenceMdl->getAgence();
-                
-                
-                
-                if(isset($_POST['titre']))
-                
-                {
+     public function agenceAction(){
 
-                    extract($_POST);
-                    
-                    $agence = new Agence(0, $titre, $adresse, $ville, $cp, $description, $photo);
-                    
-                    
-                    $agenceMdl->insererAgence($agence);
+          if( isset($_GET['actionAgence']) ){
+               $action = $_GET['actionAgence'];
 
-                    header("location: ?action=agence");
-                    exit;
-                }
-                include "views//Back_Office/gestionagence.phtml";
-            }
-        }
-    }
+               $agenceMdl = new AgenceModel();
 
-    public function getAgence()
-    {
-        $agenceMdl = new AgenceModel();
-        return $agenceMdl->getAgence();
-    }
+               $agences = $agenceMdl->agences();
+
+               switch($action){
+                    case "gestionAgence":
+
+                         if( isset($_POST['titre']) ){
+                              $agence = new Agence($_POST);
+                              $agence->setPhoto($agence->getTitre());
+
+                              $this->loadFile($agence->getTitre(), "agence/");
+
+                              $agenceMdl->inserer($agence);
+
+                              header("location: ?actionAgence=gestionAgence");
+                              exit();
+                         }
+
+                         include "views/backOffice/agence.phtml";
+                         break;
+
+                    case "modifier":
+                         if( isset($_POST['titre']) ){
+                              $agence = new Agence($_POST);
+
+                              $agence->setPhoto($_POST['photoActuelle']);
+
+                                   var_dump(!file_exists("public/img/agence/".$_POST['photoActuelle']));
+                            //  teste si nouvelle photo
+                              if(!empty($_FILES['photo']['name'])){
+                                   $agence->setPhoto($agence->getTitre());
+
+                                   //suppression ancienne photo
+                                   if( file_exists("public/img/agence/".$_POST['photoActuelle']) ){
+                                        unlink("public/img/agence/".$_POST['photoActuelle']);
+                                        var_dump($agence); die;
+                                   }
+
+                                //   $this->loadFile($agence->getTitre(), "agence/");
+
+                              }
+
+                           //   $agenceMdl->update($agence);
+
+                            //  header("location: ?actionAgence=gestionAgence");
+                              //exit();
+                              
+                         }
+
+                         $agenceActuelle = $agenceMdl->getAgence($_GET['id']);
+                         include "views/backOffice/agence.phtml";
+                         break;
+               }
+          }
+
+     }
+    
 }

@@ -1,0 +1,77 @@
+<?php ob_start(); ?>
+
+     <table class="table table-striped mt-3">
+          <tr class="table-dark">
+               <td>Id </td>
+               <td>Titre</td>
+               <td>Adresse</td>
+               <td>Ville</td>
+               <td>code postal</td>
+               <td>Description</td>
+               <td>Photo</td>
+               <td>Action</td>
+          </tr>
+
+          <?php foreach($agences as $agence): ?>
+               <tr>
+                    <td> <?= $agence->getId_agence() ?> </td>
+                    <td> <?= $agence->getTitre() ?> </td>
+                    <td> <?= $agence->getAdresse() ?> </td>
+                    <td> <?= $agence->getVille() ?> </td>
+                    <td> <?= $agence->getCp() ?> </td>
+                    <td> <?= $agence->getDescription() ?> </td>
+                    <td>
+                        <img src="public/img/agence/<?= $agence->getPhoto() ?>" class="img-fluid" alt="">
+                    </td>
+                    <td>
+                         <a href="?actionAgence=modifier&id=<?= $agence->getId_agence() ?>"><i class="fas fa-pen"></i></a>
+                         &nbsp; - &nbsp;
+                         <a href="?actionAgence=supprimer&id=<?= $agence->getId_agence() ?>"><i class="fas fa-trash"></i></a>
+                    </td>
+               </tr>
+          <?php endforeach; ?>
+
+     </table>
+
+     <form action="" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="id_agence" value="<?= isset($agenceActuelle) ? $agenceActuelle->getId_agence() : 0 ?>">
+          <div class="row">
+               <div class="col-6 mt-4">
+                   <label for="pseudo">Titre</label>
+                   <input type="text" name="titre" class="form-control" value="<?= isset($agenceActuelle) ? $agenceActuelle->getTitre() : '' ?>">
+               </div>
+               <div class="col-6 mt-4">
+                   <label for="email">Adresse</label>
+                   <input type="text" name="adresse" class="form-control" value="<?= isset($agenceActuelle) ? $agenceActuelle->getAdresse() : '' ?>">
+               </div>
+               <div class="col-6 mt-4">
+                   <label for="nom">Ville</label> 
+                   <input type="text" name="ville" class="form-control" value="<?= isset($agenceActuelle) ? $agenceActuelle->getVille() : '' ?>">
+               </div>
+               <div class="col-6 mt-4">
+                   <label for="prenom">Code postal</label>
+                   <input type="text" name="cp" class="form-control" value="<?= isset($agenceActuelle) ? $agenceActuelle->getCp() : '' ?>">
+               </div>
+               <div class="col-6 mt-4">
+                   <label for="statut">Photo</label>
+                   <input type="file" name="photo" class="form-control">
+
+                    <?php if(isset($agenceActuelle)): ?>
+                        <img src="public/img/agence/<?= $agenceActuelle->getPhoto() ?>" alt="">
+                        <input type="hidden" name="photoActuelle" value="<?= $agenceActuelle->getPhoto() ?>">
+                    <?php endif; ?>
+
+               </div>  
+               
+               <div class="col-6 mt-4">
+                <label for="mdp">Description</label>
+                <textarea name="description" name="description" class="form-control" cols="30" rows="10"><?= isset($agenceActuelle) ? $agenceActuelle->getDescription() : '' ?></textarea>
+            </div>        
+           </div>
+           <input type="submit" class="btn btn-success mt-3">
+     </form>
+
+<?php
+$content = ob_get_clean();
+
+include "views/template.phtml";

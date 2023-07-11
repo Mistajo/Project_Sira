@@ -1,36 +1,39 @@
-<?php ob_start(); 
-
-?>
-
+<?php ob_start(); ?>
     <form action="" method="post">
         <div class="row">
             <div class="col-6 mt-4">
                 <label for="pseudo">Pseudo</label>
-                <input type="text" name="pseudo" class="form-control" placeholder="Pseudo">
+                <input type="text" name="pseudo" class="form-control" value="Pseudo">
             </div>
             <div class="col-6 mt-4">
                 <label for="email">Votre email</label>
-                <input type="email" name="email" class="form-control" placeholder="Email">
+                <input type="email" name="email" class="form-control" value="Email">
             </div>
             <div class="col-6 mt-4">
                 <label for="mdp">Mot de passe</label>
                 <input type="password" name="mdp" class="form-control" >
             </div>
             <div class="col-6 mt-4">
-                <label for="civilte">Civilité</label>
-                <select name="civilte" class="form-select">
+                <label for="civilite">Civilité</label>
+                <select name="civilite" class="form-select">
                     <option value="homme">homme</option>
                     <option value="femme">femme</option>
                 </select>
             </div>
             <div class="col-6 mt-4">
                 <label for="nom">Votre nom</label>
-                <input type="text" name="nom" class="form-control" placeholder="Nom">
+                <input type="text" name="nom" class="form-control" value="Nom">
             </div>
-            
+            <!-- <div class="col-6 mt-4">
+                <label for="statut">statut</label>
+                <select name="statut" class="form-select">
+                    <option value="membre">membre</option>
+                    <option value="admin">admin</option>
+                </select>
+            </div> -->
             <div class="col-6 mt-4">
                 <label for="prenom">Votre prénom</label>
-                <input type="text" name="prenom" class="form-control" placeholder="Prénom">
+                <input type="text" name="prenom" class="form-control" value="Prénom">
             </div>          
         </div>
         <input type="submit" class="btn btn-success mt-3">

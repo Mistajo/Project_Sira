@@ -9,31 +9,29 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
      <link rel="stylesheet" href="public/css/style.css">
-     <title>Projet SIRA</title>
+     <title>Projet Sira</title>
 </head>
 <body>
     <header class="bg-primary text-center p-3">
         <h1 class="text-center"><a href="." class="text-white">Location de véhicule</a></h1>
         <nav>
 
-        <?php if(isset($_SESSION['user'])): ?>
-
-            <?php if(unserialize($_SESSION['user'])->getStatut()): ?>
-            
-                <a href="?action=" class="btn btn-success" >Mon Compte</a>
-            <a href="?action=agence" class="btn btn-success">Gestion Agences</a>
-            <a href="?action=" class="btn btn-success">Gestion Vehicules</a>
-            <a href="?action=gestionmembre" class="btn btn-success">Gestion Membres</a>
-            <a href="?action=" class="btn btn-success">Gestion Commandes</a>
-            
+            <?php if(isset($_SESSION['user'])): ?>
+                <?php if(unserialize($_SESSION['user'])->getStatut()): ?>
+                    <a href="?action=gestionMembre" class="btn btn-success" >Gestion membre</a>
+                    <a href="?actionAgence=gestionAgence" class="btn btn-success" >Gestion agence</a>
+                    <a href="?actionVehicule=gestionVehicule" class="btn btn-success" >Gestion véhicule</a>
+                    <a href="?action=" class="btn btn-success" >Gestion commandes</a>
+                    
                 <?php endif; ?>
-                <a href="?action=" class="btn btn-success">Commandes</a>
-                <a href="?action=deconnexion" class="btn btn-danger">Deconnexion</a>
+
+            <a href="?action=" class="btn btn-success">commandes</a>
+            <a href="?action=deconnexion" class="btn btn-danger">Deconnexion</a>
             <?php else: ?>
-            <a href="?action=inscription" class="btn btn-success" >Inscription</a>
-            <a href="?action=connexion" class="btn btn-success">Connexion</a>
-            <a href="?action=" class="btn btn-success">Contactez-nous</a>
+                <a href="?action=inscription" class="btn btn-success" >Inscription</a>
+                <a href="?action=connexion" class="btn btn-success">Connexion</a>
             <?php endif; ?>
+
         </nav>
     </header>
 

@@ -10,17 +10,21 @@ class Agence
     private $description;
     private $photo;
 
-    public function __construct($id_agence, $titre, $adresse, $ville, $cp, $description, $photo)
-    {
-        $this->id_agence   = $id_agence;
-        $this->titre       = $titre;
-        $this->adresse     = $adresse;
-        $this->ville       = $ville;
-        $this->cp          = $cp;
-        $this->description = $description;
-        $this->photo       = $photo;
+    public function __construct($data = []){
 
-    }
+        foreach($data as $key => $value){
+             //création de la methode set...
+             $methode  = "set" . ucfirst(  $key ) ;
+
+             //teste si le setter existe
+             if( method_exists($this, $methode) ){
+                  //appel du setter et en paramètre la valeur ($value)
+                  $this->$methode($value);
+             }
+        }
+
+   }
+   
     /**
      * Get the value of id_agence
      */ 

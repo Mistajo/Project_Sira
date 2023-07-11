@@ -2,9 +2,9 @@
 
 class MembreModel extends ModelGenerique
 {
-    public function inserer($membre)
+    public function inserer(Membre $membre)
     {
-        $query = "INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilte, statut, date_enregistrement) VALUES(:pseudo, :mdp, :nom, :prenom, :email, :civilte, 0, now())";
+        $query = "INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, statut, date_enregistrement) VALUES(:pseudo, :mdp, :nom, :prenom, :email, :civilite, :statut, now())";
 
         $this->executeRequete($query,[
             "pseudo"    => $membre->getPseudo(),
@@ -12,7 +12,8 @@ class MembreModel extends ModelGenerique
             "nom"       => $membre->getNom(),
             "prenom"    => $membre->getPrenom(),
             "email"     => $membre->getEmail(),
-            "civilte"   => $membre->getCivilte()
+            "civilite"  => $membre->getCivilite(),
+            "statut"    => $membre->getStatut() ?? 0
         ]);
     }
 
@@ -26,35 +27,29 @@ class MembreModel extends ModelGenerique
 
             if (password_verify($password, $res['mdp'])) 
             {
-                extract($res);
-
-                return new Membre($id_membre, $pseudo, $mdp, $nom, $prenom, $email, $civilte, $statut, $date_enregistrement);
+                return new Membre($res);
             }
         }
         return null;
     }
-    public function listeMembre()
-    {
+
+    public function listeMembre(){
         $stmt = $this->executeRequete("SELECT * FROM membre");
 
-        $tmembre = [];
+        $tab = [];
 
-        while ($res = $stmt->fetch())
-        
-        {
-            extract($res);
-            $tmembre[] = new Membre($id_membre,$pseudo,$mdp,$nom,$prenom,$email,$civilte,$statut,$date_enregistrement);
+        while($res = $stmt->fetch()){
+            $m = new Membre($res);
+            $tab[] = $m;
         }
 
-        // var_dump($tAgence);
-
-        return $tmembre;
+        return $tab;
     }
 
-     public function getMembre(int $id){
+    public function getMembre(int $id){
         $stmt = $this->executeRequete("SELECT * FROM membre WHERE id_membre = :id", ['id' => $id]);
 
-        return new Membre();
+        return new Membre($stmt->fetch());
     }
 
     public function update(Membre $membre){
@@ -64,7 +59,7 @@ class MembreModel extends ModelGenerique
             "pseudo"    => $membre->getPseudo(),
             "nom"       => $membre->getNom(),
             "prenom"    => $membre->getPrenom(),
-            "sexe"      => $membre->getCivilte(),
+            "sexe"      => $membre->getCivilite(),
             "statut"    => $membre->getStatut(),
             "email"     => $membre->getEmail(),
             "id"        => $membre->getId_membre()
@@ -74,4 +69,5 @@ class MembreModel extends ModelGenerique
     public function delete(Membre $membre){
         $this->executeRequete("DELETE FROM membre WHERE id_membre = :id", ["id" => $membre->getId_membre()]);
     }
-    }
+
+}

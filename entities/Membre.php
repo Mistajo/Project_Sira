@@ -8,38 +8,38 @@ class Membre{
     private $nom;
     private $prenom;
     private $email;
-    private $civilte;
+    private $civilite;
     private $statut;
     private $date_enregistrement;
 
-    public function __construct($id_membre, $pseudo, $mdp, $nom, $prenom, $email, $civilte, $statut, $date_enregistrement)
-    {
-          $this->id_membre = $id_membre;
-          $this->pseudo = $pseudo;
-          $this->mdp = $mdp;
-          $this->nom = $nom;
-          $this->prenom = $prenom;
-          $this->email = $email;
-          $this->civilte = $civilte;
-          $this->statut = $statut;
-          $this->date_enregistrement = $date_enregistrement;
+//     public function __construct($id_membre, $pseudo, $mdp, $nom, $prenom, $email, $civilte, $statut, $date_enregistrement)
+//     {
+//           $this->id_membre = $id_membre;
+//           $this->pseudo = $pseudo;
+//           $this->mdp = $mdp;
+//           $this->nom = $nom;
+//           $this->prenom = $prenom;
+//           $this->email = $email;
+//           $this->civilte = $civilte;
+//           $this->statut = $statut;
+//           $this->date_enregistrement = $date_enregistrement;
           
-    }
+//     }
 
-//     public function __construct($data = []){
+    public function __construct($data = []){
 
-//           foreach($data as $key => $value){
-//                //création de la methode set...
-//                $methode  = "set" . ucfirst(  $key ) ;
+          foreach($data as $key => $value){
+               //création de la methode set...
+               $methode  = "set" . ucfirst(  $key ) ;
 
-//                //teste si le setter existe
-//                if( method_exists($this, $methode) ){
-//                     //appel du setter et en paramètre la valeur ($value)
-//                     $this->$methode($value);
-//                }
-//           }
+               //teste si le setter existe
+               if( method_exists($this, $methode) ){
+                    //appel du setter et en paramètre la valeur ($value)
+                    $this->$methode($value);
+               }
+          }
 
-//      }
+     }
      
      
 
@@ -154,17 +154,17 @@ class Membre{
      /**
       * Get the value of civilte
       */
-     public function getCivilte()
+     public function getCivilite()
      {
-          return $this->civilte;
+          return $this->civilite;
      }
 
      /**
       * Set the value of civilte
       */
-     public function setCivilte($civilte): self
+     public function setCivilite($civilite): self
      {
-          $this->civilte = $civilte;
+          $this->civilite = $civilite;
 
           return $this;
      }
