@@ -14,7 +14,7 @@ class VehiculeModel extends ModelGenerique{
             "titre"  => $vehicule->getTitre(),
             "marque"   => $vehicule->getMarque(),
             "modele"      => $vehicule->getModele(),
-            "desc"    => $vehicule->getDescription(),
+            "description"    => $vehicule->getDescription(),
             "photo"   => $vehicule->getPhoto(),
             "prix"   => $vehicule->getPrix_journalier(),
         ]);
@@ -46,5 +46,7 @@ class VehiculeModel extends ModelGenerique{
             "prix"   => $vehicule->getPrix_journalier(),
         ]);
     }
-
+        public function delete(Vehicule $vehicule){
+        $this->executeRequete("DELETE FROM vehicule WHERE id_vehicule = :id", ['id' => $vehicule->getId_vehicule()]);
+     }
 }

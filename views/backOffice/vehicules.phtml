@@ -24,7 +24,7 @@
                     <td>
                         <img src="public/img/vehicule<?= $vehicule->getPhoto() ?>" class="img-fluid" alt="">
                     </td>
-                    <td> <?= $vehicule->getPrix_journalier() ?> </td>
+                    <td> <?= $vehicule->getPrix_journalier() ?> €</td>
                     <td>
                          <a href="?actionVehicule=modifier&id=<?= $vehicule->getId_vehicule() ?>"><i class="fas fa-pen"></i></a>
                          &nbsp; - &nbsp;
@@ -40,7 +40,7 @@
           
           <div class="row">
                <div class="col-6 mt-4">
-                   <label for="id_agence">Agence</label>
+                   
                    <select name="id_agence" id="">
             <?php foreach($agences as $agence) : ?>
                     <option value="<?= $agence->getId_agence(); ?>"> <?= $agence->getId_agence(); ?> <?= $agence->getTitre(); ?></option>
@@ -61,14 +61,14 @@
                    <input type="text" name="modele" class="form-control" placeholder="Modele" value="<?= isset($vehiculeActuelle) ? $vehiculeActuelle->getModele() : '' ?>">
                </div>
                <div class="col-6 mt-4">
-                   <label for="prix">Prix</label>
-                   <input type="text" name="prix" class="form-control" placeholder="Prix" value="<?= isset($vehiculeActuelle) ? $vehiculeActuelle->getPrix_journalier() : '' ?>">
+                   <label for="Prix_journalier">Prix_journalier</label>
+                   <input type="number" name="Prix_journalier" class="form-control" placeholder="Prix" value="<?= isset($vehiculeActuelle) ? $vehiculeActuelle->getPrix_journalier() : '' ?>">
                </div>
                <div class="col-6 mt-4">
                    <label for="statut">Photo</label>
                    <input type="file" name="photo" class="form-control">
 
-                    <?php if(isset($agenceActuelle)): ?>
+                    <?php if(isset($vehiculeActuelle)): ?>
                         <img src="public/img/vehicule/<?= $vehiculeActuelle->getPhoto() ?>" alt="">
                         <input type="hidden" name="photoActuelle" value="<?= $vehiculeActuelle->getPhoto() ?>">
                     <?php endif; ?>

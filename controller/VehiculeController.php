@@ -7,19 +7,20 @@ class VehiculeController extends ControllerAbstract
 if( isset($_GET['actionVehicule']) ){
     $action = $_GET['actionVehicule'];
 
+    $agenceMdl = new AgenceModel();
     $vehiculeMdl = new VehiculeModel();
-    $id_agenceMdl = new AgenceModel();
-
+    
+    $agences = $agenceMdl->agences();
     $vehicules = $vehiculeMdl->vehicules();
 
     switch($action){
         case "gestionVehicule":
-
+           
         if( isset($_POST['titre']) ){
             $vehicule = new Vehicule($_POST);
-            $vehicule->setPhoto($vehicule->getTitre());
+            $vehicule->setPhoto($vehicule->getTitre().'.'. $this->getFileExtension());
 
-            $this->loadFile($vehicule->getTitre(), "vehicule/");
+            $this->loadFile($vehicule->getPhoto(), "vehicule/");
 
             $vehiculeMdl->inserer($vehicule);
 
@@ -36,34 +37,40 @@ if( isset($_GET['actionVehicule']) ){
 
             $vehicule->setPhoto($_POST['photoActuelle']);
 
-                var_dump(!file_exists("public/img/vehicule/".$_POST['photoActuelle']));
-        //  teste si nouvelle photo
+                
+        //récup de la photo chargée en cas de nouvelle photo
             if(!empty($_FILES['photo']['name'])){
-                $vehicule->setPhoto($vehicule->getTitre());
+                $vehicule->setPhoto($vehicule->getTitre().'.'. $this->getFileExtension());
 
                 //suppression ancienne photo
                 if( file_exists("public/img/vehicule/".$_POST['photoActuelle']) ){
                     unlink("public/img/vehicule/".$_POST['photoActuelle']);
-                    var_dump($vehicule); die;
                 }
 
-            //   $this->loadFile($agence->getTitre(), "agence/");
+              $this->loadFile($vehicule->getPhoto(), "vehicule/");
 
             }
 
-        //   $agenceMdl->update($agence);
+          $vehiculeMdl->update($vehicule);
 
-        //  header("location: ?actionAgence=gestionAgence");
-            //exit();
+         header("location: ?actionVehicule=gestionVehicule");
+            exit();
             
         }
-        $id_agenceMdl->getAgence("id_agence");
-        $agences = $id_agenceMdl->getAgence($_GET['id']);
-        var_dump($agences);
+        
+        
         $vehiculeActuelle = $vehiculeMdl->getVehicule($_GET['id']);
         include "views/backOffice/vehicules.phtml";
         break;
-    }
+
+    case "supprimer":
+        $vehicule = $vehiculeMdl->getVehicule($_GET['id']);
+        $vehiculeMdl->delete($vehicule);
+
+        header("location: ?actionVehicule=gestionVehicule");
+        exit();
+        break;
+}
 }
 
 }

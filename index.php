@@ -16,7 +16,7 @@ include "model/VehiculeModel.php";
 include "controller/ControllerAbstract.php";
 include "controller/MembreController.php";
 include "controller/AgenceController.php";
-include "controller/VehiculeControlleur.php";
+include "controller/VehiculeController.php";
 
 
 $membreCtl = new MembreController();
