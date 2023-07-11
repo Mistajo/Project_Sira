@@ -46,4 +46,8 @@ class AgenceModel extends ModelGenerique{
           ]);
      }
 
+     public function delete(Agence $agence){
+          $this->executeRequete("DELETE FROM agence WHERE id_agence = :id", ['id' => $agence->getId_agence()]);
+     }
+
 }

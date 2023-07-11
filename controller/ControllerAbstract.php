@@ -3,6 +3,7 @@
 abstract class ControllerAbstract{
 
      public function loadFile($fileName, $path){
+          
           //teste si un fichier a été uploader
           if( !empty($_FILES['photo']['name']) ){
 
@@ -19,12 +20,21 @@ abstract class ControllerAbstract{
                     if( in_array($info['extension'], $extensions) ){
 
                          //déplacer le fichier dans le répertoire img
-                         move_uploaded_file($_FILES['photo']['tmp_name'], "public/img/".$path . $fileName.".".$info['extension']);
+                         move_uploaded_file($_FILES['photo']['tmp_name'], "public/img/".$path . $fileName);
                     
                     }  
                }
           }
      }
+
+     public function getFileExtension(){
+          if( !empty($_FILES['photo']['name']) ){
+               $info = pathinfo($_FILES['photo']['name']);
+               return $info['extension'];
+          }
+
+          return null;
+     } 
 
 
 }

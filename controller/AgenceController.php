@@ -14,11 +14,12 @@ class AgenceController extends ControllerAbstract{
                switch($action){
                     case "gestionAgence":
 
+                         //ajoute d'agence
                          if( isset($_POST['titre']) ){
                               $agence = new Agence($_POST);
-                              $agence->setPhoto($agence->getTitre());
-
-                              $this->loadFile($agence->getTitre(), "agence/");
+                              $agence->setPhoto($agence->getTitre() .'.'. $this->getFileExtension());
+                          
+                              $this->loadFile($agence->getPhoto(), "agence/");
 
                               $agenceMdl->inserer($agence);
 
@@ -33,32 +34,36 @@ class AgenceController extends ControllerAbstract{
                          if( isset($_POST['titre']) ){
                               $agence = new Agence($_POST);
 
+                              //récuperer le nom de la photo actuelle en BD si pas de modif sur l'img
                               $agence->setPhoto($_POST['photoActuelle']);
-
-                                   var_dump(!file_exists("public/img/agence/".$_POST['photoActuelle']));
-                            //  teste si nouvelle photo
+                            
+                              //récup de la photo chargée en cas de nouvelle photo
                               if(!empty($_FILES['photo']['name'])){
-                                   $agence->setPhoto($agence->getTitre());
-
+                                   $agence->setPhoto($agence->getTitre().'.'. $this->getFileExtension());
                                    //suppression ancienne photo
                                    if( file_exists("public/img/agence/".$_POST['photoActuelle']) ){
                                         unlink("public/img/agence/".$_POST['photoActuelle']);
-                                        var_dump($agence); die;
                                    }
-
-                                //   $this->loadFile($agence->getTitre(), "agence/");
-
+                                  
+                                   $this->loadFile($agence->getPhoto(), "agence/");
                               }
 
-                           //   $agenceMdl->update($agence);
+                              $agenceMdl->update($agence);
 
-                            //  header("location: ?actionAgence=gestionAgence");
-                              //exit();
-                              
+                              header("location: ?actionAgence=gestionAgence");
+                              exit();
                          }
 
                          $agenceActuelle = $agenceMdl->getAgence($_GET['id']);
                          include "views/backOffice/agence.phtml";
+                         break;
+                    
+                    case "supprimer":
+                         $agence = $agenceMdl->getAgence($_GET['id']);
+                         $agenceMdl->delete($agence);
+
+                         header("location: ?actionAgence=gestionAgence");
+                         exit();
                          break;
                }
           }
