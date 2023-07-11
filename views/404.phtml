@@ -1,0 +1,11 @@
+<?php ob_start(); ?>
+
+     <div class="row mt-3 alert alert-warning">
+          erreur 404
+          <div> <?= $msg; ?> </div>
+     </div>
+<?php
+
+$content = ob_get_clean();
+
+include "template.phtml";

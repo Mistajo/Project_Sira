@@ -5,6 +5,12 @@ class AgenceController extends ControllerAbstract{
      public function agenceAction(){
 
           if( isset($_GET['actionAgence']) ){
+
+               if( !$this->isAdmin() ){
+                    header("location: ?actionFront=connexion");
+                    exit();
+               }
+              
                $action = $_GET['actionAgence'];
 
                $agenceMdl = new AgenceModel();

@@ -28,4 +28,12 @@ abstract class ModelGenerique
 
 
     }
+
+    public function exists($table, $colonne, $id){
+        $query = "SELECT * FROM $table WHERE $colonne = :id";
+
+        $stmt = $this->executeRequete($query, ['id' => $id]);
+
+        return $stmt->rowCount() != 0;
+    }
 }

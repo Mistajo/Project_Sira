@@ -11,8 +11,6 @@ class Vehicule
     private $photo;
     private $prix_journalier;
 
-
-
     public function __construct($data = []){
 
         foreach($data as $key => $value){
@@ -27,7 +25,7 @@ class Vehicule
         }
 
    }
-   
+
     /**
      * Get the value of id_vehicule
      */ 
@@ -75,8 +73,6 @@ class Vehicule
     {
         return $this->titre;
     }
-
-    
 
     /**
      * Set the value of titre

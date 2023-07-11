@@ -1,0 +1,105 @@
+<?php ob_start(); ?>
+
+     <div class="col-2 mt-3">
+          <select name="id_agence" id="filtre" class="form-select">
+               <option value="">-- selectioner une agence --</option>
+               <?php foreach($agences as $agence): ?>
+                    <option href="?id=<?= $agence->getId_agence() ?>"><?= $agence->getTitre() ?>
+                    </option>
+               <?php endforeach; ?>
+          </select>
+     </div>
+     <table class="table table-striped mt-3 table-sm">
+          <tr class="table-dark">
+               <td>Id </td>
+               <td>Agence</td>
+               <td>Titre</td>
+               <td>Marque</td>
+               <td>Modele</td>
+               <td>Description</td>
+               <td>Photo</td>
+               <td>Prix</td>
+               <td>Action</td>
+          </tr>
+
+          <?php foreach($vehicules as $vehicule): ?>
+               <tr>
+                    <td> <?= $vehicule->getId_vehicule() ?> </td>
+                    <td> <?= $agenceMdl->getAgence($vehicule->getId_agence())->getTitre() ?> </td>
+                    <td> <?= $vehicule->getTitre() ?> </td>
+                    <td> <?= $vehicule->getMarque() ?> </td>
+                    <td> <?= $vehicule->getModele() ?> </td>
+                    <td> <?= $vehicule->getDescription() ?> </td>
+                    <td>
+                        <img src="public/img/vehicule/<?= $vehicule->getPhoto() ?>" class="img-fluid" alt="">
+                    </td>
+                    <td> <?= $vehicule->getPrix_journalier() ?> € </td>
+                    <td>
+                         <a href="?actionVehicule=modifier&id=<?= $vehicule->getId_vehicule() ?>"><i class="fas fa-pen"></i></a>
+                         &nbsp; - &nbsp;
+                         <a href="?actionVehicule=supprimer&id=<?= $vehicule->getId_vehicule() ?>"><i class="fas fa-trash"></i></a>
+                    </td>
+               </tr>
+          <?php endforeach; ?>
+
+     </table>
+
+     <form action="" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="id_vehicule" value="<?= isset($vehiculeActuel) ? $vehiculeActuel->getId_vehicule() : 0 ?>">
+          <div class="col-5">
+               <select name="id_agence" id="" class="form-select">
+                    <?php foreach($agences as $agence): ?>
+                         <option <?= isset($vehiculeActuel) && $vehiculeActuel->getId_agence() == $agence->getId_agence() ? 'selected' : ''  ?> value="<?= $agence->getId_agence() ?>">
+                              <?= $agence->getTitre() ?>
+                         </option>
+                    <?php endforeach; ?>
+               </select>
+          </div>
+          <div class="row">
+               <div class="col-6 mt-4">
+                   <label for="pseudo">Titre</label>
+                   <input type="text" name="titre" class="form-control" value="<?= isset($vehiculeActuel) ? $vehiculeActuel->getTitre() : '' ?>">
+               </div>
+               <div class="col-6 mt-4">
+                   <label for="email">Marque</label>
+                   <input type="text" name="marque" class="form-control" value="<?= isset($vehiculeActuel) ? $vehiculeActuel->getMarque() : '' ?>">
+               </div>
+               <div class="col-6 mt-4">
+                   <label for="nom">Modele</label> 
+                   <input type="text" name="modele" class="form-control" value="<?= isset($vehiculeActuel) ? $vehiculeActuel->getModele() : '' ?>">
+               </div>
+               <div class="col-6 mt-4">
+                   <label for="prenom">Prix Journalier</label>
+                   <input type="number" name="prix_journalier" class="form-control" value="<?= isset($vehiculeActuel) ? $vehiculeActuel->getPrix_journalier() : '' ?>">
+               </div>
+               
+               <div class="col-6 mt-4">
+                    <label for="mdp">Description</label>
+                    <textarea name="description" name="description" class="form-control" cols="30" rows="10"><?= isset($vehiculeActuel) ? $vehiculeActuel->getDescription() : '' ?></textarea>
+               </div> 
+               <div class="col-6 mt-4">
+                   <label for="statut">Photo</label>
+                   <input type="file" name="photo" class="form-control">
+
+                    <?php if(isset($vehiculeActuel)): ?>
+                        <img src="public/img/vehicule/<?= $vehiculeActuel->getPhoto() ?>" alt="">
+                        <input type="hidden" name="photoActuelle" value="<?= $vehiculeActuel->getPhoto() ?>">
+                    <?php endif; ?>
+
+               </div>  
+                      
+           </div>
+           <input type="submit" class="btn btn-success mt-3">
+     </form>
+
+     <script>
+
+          document.getElementById('filtre').onchange = function(){
+               console.log(this.children[this.selectedIndex].getAttribute('href'));
+          }
+     </script>
+
+<?php
+$content = ob_get_clean();
+
+include "views/template.phtml";

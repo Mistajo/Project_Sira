@@ -17,24 +17,32 @@ include "model/CommandeModel.php";
 
 include "controller/ControllerAbstract.php";
 include "controller/MembreController.php";
+include "controller/MembreControllerFront.php";
 include "controller/AgenceController.php";
 include "controller/VehiculeController.php";
 include "controller/CommandeController.php";
 
 
-$membreCtl = new MembreController();
-$agenceCtl = new AgenceController();
-$vehiculeCtl = new VehiculeController();
-$commandeCtl = new CommandeController();
+try{
+     $membreCtl = new MembreController();
+     $membreFrontCtl = new MembreControllerFront();
+     $agenceCtl = new AgenceController();
+     $vehiculeCtl = new VehiculeController();
+     $commandeCtl = new CommandeController();
 
-$membreCtl->membreAction();
-$agenceCtl->agenceAction();
-$vehiculeCtl->vehiculeAction();
-$commandeCtl->commandeAction();
+     $membreCtl->membreAction();
+     $membreFrontCtl->membreFrontAction();
+     $agenceCtl->agenceAction();
+     $vehiculeCtl->vehiculeAction();
+     $commandeCtl->commandeAction();
 
-if( empty($_GET) ){
-     $VehiculeMdl = new VehiculeModel();
-     $vehicules = $VehiculeMdl->vehicules();
-     include "views/home.phtml";
+     if( empty($_GET) ){
+          $VehiculeMdl = new VehiculeModel();
+          $vehicules = $VehiculeMdl->vehicules();
+          include "views/home.phtml";
+     }
+}catch(Exception $e){
+     $msg = $e->getMessage();
+     include "views/404.phtml";
 }
 

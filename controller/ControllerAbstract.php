@@ -36,5 +36,21 @@ abstract class ControllerAbstract{
           return null;
      } 
 
+     public function isConnected(){
+          if( isset($_SESSION['user']) ){
+              return true;
+          }
+
+          return false;
+     }
+
+     public function isAdmin(){
+          if( $this->isConnected() && unserialize($_SESSION['user'])->getStatut() ){
+               return true;
+          }
+
+          return false;
+     }
+
 
 }

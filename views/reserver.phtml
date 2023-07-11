@@ -5,46 +5,72 @@
         <div> <span id="prix"><?= $vehiculeCmd->getPrix_journalier() ?></span>€ par jour </div>
     </div>
 
-    <form action="" method="post">
-        <input type="hidden" name="id_membre" value="<?= unserialize($_SESSION['user'])->getId_membre() ?>">
-        <input type="hidden" name="id_vehicule" value="<?= $vehiculeCmd->getId_vehicule() ?>">
-        <input type="hidden" name="id_agence" value="<?= $vehiculeCmd->getId_agence() ?>">
+     <form action="" method="post">
+          <input type="hidden" name="id_membre" value="<?= unserialize($_SESSION['user'])->getId_membre() ?>">
+          <input type="hidden" name="id_vehicule" value="<?= $vehiculeCmd->getId_vehicule() ?>">
+          <input type="hidden" name="id_agence" value="<?= $vehiculeCmd->getId_agence() ?>">
+          <input type="hidden" name="prix_total" value="" id="ttc">
 
 
-        <div class="row">
-        
-            <div class="col-6 mt-4">
-                <label for="pseudo">Date début</label>
-                <input type="datetime-local" name="date_heure_depart" class="form-control" value="<?= isset($membreActuel) ? $membreActuel->getPseudo() : '' ?>" id="begin">
-            </div>
-            <div class="col-6 mt-4">
-                <label for="email">Date fin</label>
-                <input type="datetime-local" name="date_heure_fin" class="form-control" value="<?= isset($membreActuel) ? $membreActuel->getEmail() : '' ?>" id="end" disabled>
-            </div>
-            
-        </div>
-        <input type="submit" class="btn btn-success mt-3">
-    </form>
+          <div class="row">
+               
+               <div class="col-6 mt-4">
+                   <label for="pseudo">Date début</label>
+                   <input type="date" name="date_heure_depart" class="form-control" value="<?= isset($membreActuel) ? $membreActuel->getPseudo() : '' ?>" id="begin" min="<?= date('Y-m-d') ?>">
+               </div>
+               <div class="col-6 mt-4">
+                   <label for="email">Date fin</label>
+                   <input type="date" name="date_heure_fin" class="form-control" value="<?= isset($membreActuel) ? $membreActuel->getEmail() : '' ?>" id="end" disabled>
+               </div>
+               
+               <div class="col-6 mt-4">
+                   <div id="prix_ttc"></div>
+               </div>
+           </div>
+           <input type="submit" class="btn btn-success mt-3">
+     </form>
 
 
-    <script>
+     <script>
+        //récuperation des éléments du DOM
         let dateDebut = document.getElementById('begin');
         let dateFin = document.getElementById('end');
+        let prix = document.getElementById('prix').innerHTML;
+        let prix_ttc = document.getElementById('prix_ttc');
 
+        //evenement quand l'input pert le focus
         dateDebut.addEventListener('blur', function(){
-            console.log(dateDebut.value);
+            var debut = dateDebut.value;
+
+            //on active la saiise sur date fin
             dateFin.disabled = false;
+            //on fixe le min par apport à date debut
+            let dateFinMin = new Date(dateDebut.value);
+            dateFinMin.setDate(dateFinMin.getDate() + 1)
+            dateMin = dateFinMin.toJSON();
+            
+            dateFin.min = dateMin.substring(0, 10);
 
             dateFin.addEventListener('blur', function(){
-                console.log(dateFin.value);
+                var fin = dateFin.value;
+                let jours = nbJour(debut, fin);
 
+                prix_ttc.innerHTML = jours +" jours pour " + (jours*prix) +"€";
+
+                document.getElementById("ttc").value = (jours*prix);
             });
 
         });
 
+        function nbJour(date1, date2){
+            let d1 = new Date(date1);
+            let d2 = new Date(date2);
+
+            return parseInt((d2-d1) / 86400000);
+        }
 
         
-    </script>
+     </script>
 
 <?php
 $content = ob_get_clean();

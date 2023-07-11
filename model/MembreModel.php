@@ -67,6 +67,10 @@ class MembreModel extends ModelGenerique
     }
 
     public function delete(Membre $membre){
+        if( $this->exists("commande", "id_membre", $membre->getId_membre()) ){
+            throw new Exception("Ce membre possède au moins une commande");
+        }
+
         $this->executeRequete("DELETE FROM membre WHERE id_membre = :id", ["id" => $membre->getId_membre()]);
     }
 

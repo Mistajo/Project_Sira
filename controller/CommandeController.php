@@ -2,33 +2,41 @@
 
 class CommandeController extends ControllerAbstract{
     
-    public function commandeAction(){
+     public function commandeAction(){
 
+          // if( !$this->isAdmin() ){
+          //      header("location: ?action=connexion");
+          //      exit();
+          // }
 
-        if( isset($_GET['actionCmd']) ){
+          $cmdMdl = new CommandeModel();
 
-        if( !$_SESSION['user'] )
-        {
-            header("location: ?action=connexion");
-            exit;
-        }
-        $action = $_GET['actionCmd'];
+          if( isset($_GET['actionCmd']) ){
 
-        switch($action){
-        case "reserver":
+               if( !$_SESSION['user'] ){
+                    header("location: ?action=connexion");
+                    exit;
+               }
+               $action = $_GET['actionCmd'];
 
-        if( isset($_POST['date_heure_depart']) )
-        {
-        $cmd = new Commande($_POST);
-        }
+               switch($action){
+                    case "reserver":
 
-        $vehMdl = new VehiculeModel();
+                         if( isset($_POST['date_heure_depart']) ){
+                              $cmd = new Commande($_POST);
+                              $cmdMdl->inserer($cmd);
+                              
+                              header("location: .");
+                              exit;
+                         }
 
-        $vehiculeCmd = $vehMdl->getVehicule($_GET['vehicule']);
-        
-        include "views/reserver.phtml";
-        break;
-            }
-        }
-    }
+                         $vehMdl = new VehiculeModel();
+
+                         $vehiculeCmd = $vehMdl->getVehicule($_GET['vehicule']);
+               
+                         include "views/reserver.phtml";
+                         break;
+               }
+          }
+     }
 }
